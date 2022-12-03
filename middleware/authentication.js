@@ -17,7 +17,10 @@ const authenticateUser = async (req, res, next) => {
     });
 
     if (!existingToken || !existingToken.isValid) {
-      return res.status(403).json({ msg: "Authentication Failed" });
+      return next({
+        status: 403,
+        message: "Authentication Failed",
+      });
     }
 
     attachCookiesToResponse({
@@ -27,14 +30,20 @@ const authenticateUser = async (req, res, next) => {
     });
     (req.user = payload.user), next();
   } catch (error) {
-    res.status(403).json({ msg: "Authentication Invalid" });
+    return next({
+      status: 403,
+      message: "Authentication Invalid",
+    });
   }
 };
 
 const authorizePermissions = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ msg: "Unauthorized to access this route" });
+      return next({
+        status: 403,
+        message: "Unauthorized to access this route",
+      });
     }
     next();
   };

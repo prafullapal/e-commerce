@@ -4,7 +4,10 @@ const Products = require("../models/Products");
 const getCart = async (req, res) => {
   const cart = await Carts.find({ owner: req.user.userId });
   if (!cart) {
-    return res.status(404).json({ msg: "The Cart is Empty" });
+    return next({
+      status: 404,
+      message: "The Cart is Empty",
+    });
   }
   res.status(200).json({ cart });
 };
@@ -26,7 +29,7 @@ const addCart = async (req, res) => {
     });
     cart.bill += req.query.quantity * product.price;
     const result = await cart.save();
-    return res.status().json({ result });
+    return res.status(200).json({ result });
   }
   const cart = await Carts.findOne({ owner: req.user.userId });
   cart.products.push({
@@ -37,14 +40,17 @@ const addCart = async (req, res) => {
   });
   cart.bill += req.query.quantity * product.price;
   const result = await cart.save();
-  return res.status().json({ result });
+  return res.status(200).json({ result });
 };
 
 const deleteCart = async (req, res) => {
   //remove the product from cart
   const cart = await Carts.findOne({ owner: req.user.userId });
   if (!cart) {
-    return res.status(500).json({ msg: "Cart is Empty" });
+    return next({
+      status: 404,
+      message: "Cart is Empty",
+    });
   }
 
   const productIndex = cart.products.findIndex(
@@ -65,7 +71,10 @@ const deleteCart = async (req, res) => {
 
     res.status(200).json({ cart });
   } else {
-    res.status(404).json({ msg: "Product not found" });
+    return next({
+      status: 404,
+      message: "Product not found",
+    });
   }
 
   res.status(200);

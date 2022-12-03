@@ -1,20 +1,19 @@
 const nodemailer = require("nodemailer");
 
 const sendEmail = async ({ to, subject, html }) => {
-  let testAccount = await nodemailer.createTestAccount();
+  // let testAccount = await nodemailer.createTestAccount();
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
+    service: "gmail",
+    secure: true,
     auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PASS,
     },
   });
 
   return transporter.sendMail({
-    from: `E-Commerce Backend <${testAccount.user}>`,
+    from: `E-Commerce Backend <${process.env.NODEMAILER_EMAIL}>`,
     to,
     subject,
     html,

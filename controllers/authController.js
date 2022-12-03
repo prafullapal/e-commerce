@@ -12,10 +12,16 @@ const crypto = require("crypto");
 const register = async (req, res) => {
   const { email, name, password, isSeller } = req.body;
   if (!email || !name || !password)
-    return res.status(400).json({ msg: "Please provide all values" });
+    return next({
+      status: 400,
+      message: "Please provide all values",
+    });
   const emailAlreadyExists = await Users.findOne({ email });
   if (emailAlreadyExists) {
-    return res.status(400).json({ msg: "Email already exists" });
+    return next({
+      status: 400,
+      message: "Email already exists",
+    });
   }
 
   const isFirstAccount = (await Users.countDocuments({})) === 0;
@@ -45,15 +51,24 @@ const register = async (req, res) => {
 const verifyEmail = async (req, res) => {
   const { token, email } = req.query;
   if (!token || !email)
-    return res.status(400).json({ msg: "Please provide all values" });
+    return next({
+      status: 400,
+      message: "Please provide all values",
+    });
   const user = await Users.findOne({ email });
 
   if (!user) {
-    return res.status(403).json({ msg: "Verification Failed" });
+    return next({
+      status: 403,
+      message: "Verification Failed",
+    });
   }
 
   if (user.verificationToken !== token) {
-    return res.status(403).json({ msg: "Verification Failed" });
+    return next({
+      status: 403,
+      message: "Verification Failed",
+    });
   }
 
   user.isVerified = true;
@@ -64,24 +79,36 @@ const verifyEmail = async (req, res) => {
   res.status(200).json({ msg: "Email Verified" });
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ msg: "Please provide email and password" });
+    return next({
+      status: 400,
+      message: "Please provide all values",
+    });
   }
   const user = await Users.findOne({ email });
 
   if (!user) {
-    return res.status(403).json({ msg: "Invalid Credentials" });
+    return next({
+      status: 403,
+      message: "Invalid Credentials",
+    });
   }
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    return res.status(403).json({ msg: "Invalid Credentials" });
+    return next({
+      status: 403,
+      message: "Invalid Credentials",
+    });
   }
 
   if (!user.isVerified) {
-    return res.status(403).json({ msg: "Please Verify Email" });
+    return next({
+      status: 403,
+      message: "Please verify email",
+    });
   }
   const tokenUser = createTokenUser(user);
 
@@ -91,7 +118,10 @@ const login = async (req, res) => {
   if (existingToken) {
     const { isValid } = existingToken;
     if (!isValid) {
-      return res.status(403).json({ msg: "Invalid Credentials" });
+      return next({
+        status: 403,
+        message: "Invalid Credentials",
+      });
     }
     refreshToken = existingToken.refreshToken;
     attachCookiesToResponse({ res, user: tokenUser, refreshToken });
@@ -105,6 +135,7 @@ const login = async (req, res) => {
   const userToken = { refreshToken, ip, userAgent, user: user._id };
 
   await Token.create(userToken);
+  Credentials;
 
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
 
@@ -128,7 +159,10 @@ const logout = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email) {
-    return res.status(400).json({ msg: "Please provide valid email" });
+    return next({
+      status: 400,
+      message: "Please provide valid email",
+    });
   }
   const user = await Users.findOne({ email });
 
@@ -159,13 +193,19 @@ const resetPassword = async (req, res) => {
   const { token, email } = req.query;
   const { password } = req.body;
   if (!token || !email || !password) {
-    return res.status(400).json({ msg: "Please provide all values" });
+    return next({
+      status: 400,
+      message: "Please provide all values",
+    });
   }
   const user = await Users.findOne({ email });
 
   if (user) {
     if (user.passwordToken !== token) {
-      return res.status(400).json({ msg: "Could not update Password" });
+      return next({
+        status: 400,
+        message: "Could not update Password",
+      });
     }
     user.password = password;
     user.passwordToken = null;

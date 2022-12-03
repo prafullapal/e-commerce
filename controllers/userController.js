@@ -14,9 +14,10 @@ const getAllUsers = async (req, res) => {
 const getSingleUser = async (req, res) => {
   const user = await Users.findOne({ _id: req.params.id }).select("-password");
   if (!user) {
-    return res
-      .status(404)
-      .json({ msg: `No user found with username: ${req.user}` });
+    return next({
+      status: 404,
+      message: `No user found with username: ${req.user}`,
+    });
   }
   checkPermissions(req.user, user._id);
   res.status(200).json({ user });
@@ -29,7 +30,10 @@ const showCurrentUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { email, name } = req.body;
   if (!email || !name) {
-    return res.status(400).json({ msg: "Please provide all values" });
+    return next({
+      status: 400,
+      message: "Please provide all values",
+    });
   }
   const user = await Users.findOne({ _id: req.user.userId });
 
@@ -45,13 +49,19 @@ const updateUser = async (req, res) => {
 const updateUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   if (!oldPassword || !newPassword) {
-    return res.status(400).json({ msg: "Please provide both values" });
+    return next({
+      status: 400,
+      message: "Please provide both values",
+    });
   }
   const user = await Users.findOne({ _id: req.user.userId });
 
   const isPasswordCorrect = await user.comparePassword(oldPassword);
   if (!isPasswordCorrect) {
-    return res.status(403).json({ msg: "Invalid Credentials" });
+    return next({
+      status: 403,
+      message: "Invalid Credentials",
+    });
   }
   user.password = newPassword;
   await user.save();

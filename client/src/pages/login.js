@@ -37,10 +37,8 @@ function LogInModal(props) {
           }
         })
         .catch((error) => {
-          props.onShowNotif(
-            error.msg || error.response.data.msg || error.response.data.message,
-            "danger"
-          );
+          // console.log(error);
+          props.onShowNotif(error.response.data.message, "danger");
         });
     } else {
       axios

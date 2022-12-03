@@ -15,7 +15,7 @@ const {
 router.post("/register", register); //Tested Postman
 router.post("/login", login); //Tested Postman
 router.get("/logout", authenticateUser, logout);
-router.post("/verify-email", verifyEmail); //Tested Postman
+router.get("/verify-email", verifyEmail); //Tested Postman
 router.post("/reset-password", resetPassword);
 router.post("/forgot-password", forgotPassword);
 

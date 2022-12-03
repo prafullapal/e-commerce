@@ -42,7 +42,7 @@ app.use("/products", productRouter);
 app.use("/cart", cartRouter);
 
 // 404 and other custom error handler
-app.use(page_not_found_error);
 app.use(handle_custom_error);
+app.use(page_not_found_error);
 
 module.exports = app;

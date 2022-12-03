@@ -42,7 +42,10 @@ const hashString = (string) =>
 const checkPermissions = (reqUser, resUserId) => {
   if (reqUser.role === "admin") return;
   if (reqUser.userId === resUserId.toString()) return;
-  res.status(403).json({ msg: "Not authorized to access this route" });
+  return next({
+    status: 403,
+    message: "Not authorized to access this route",
+  });
 };
 
 module.exports = {
