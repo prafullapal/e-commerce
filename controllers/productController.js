@@ -49,9 +49,12 @@ const clearCatalog = async (req, res) => {
 const createProduct = async (req, res) => {
   const product = req.body;
   product.owner = req.user.userId;
-
+  if (!product || !product.owner)
+    return next({
+      status: 404,
+      message: "No valid details found",
+    });
   const results = await Products.create(product);
-  //create error condition
   res.status(200).json({ results });
 };
 

@@ -13,6 +13,11 @@ const getCart = async (req, res) => {
 };
 
 const addCart = async (req, res) => {
+  if (!req.query.productId || !req.query.quantity)
+    return next({
+      status: 400,
+      message: "Product Id with quantity are required to add to cart",
+    });
   const product = await Products.findById(req.query.productId);
   const isFirstProduct = (await Carts.countDocuments({})) === 0;
   if (isFirstProduct) {
