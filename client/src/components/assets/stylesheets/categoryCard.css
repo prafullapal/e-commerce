@@ -1,0 +1,12 @@
+.category-card {
+    width: 8rem;
+    padding: 20px;
+    border: none;
+}
+.category-image {
+    border-radius: 50%;
+}
+.title {
+    text-align: center;
+    font-size: small;
+}
