@@ -2,6 +2,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
 var logger = require("morgan");
 var cors = require("cors");
 require("dotenv").config();
@@ -20,6 +21,9 @@ const {
 var app = express();
 const db = require("./models");
 
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 10000 }));
+
 app.use(logger("common"));
 app.use(cors({ origin: true, credentials: true }));
 app.use(function (req, res, next) {
@@ -31,8 +35,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/", indexRouter);

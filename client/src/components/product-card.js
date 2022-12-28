@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 function ProductCard({ product }) {
   return (
     <Card style={{ width: "12rem", padding: "20px" }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Img variant="top" src={product.img} />
       <Card.Body>
         <Card.Title>
           <a href="#card-title" style={{ textDecoration: "none" }}>

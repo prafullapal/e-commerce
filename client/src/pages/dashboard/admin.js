@@ -1,11 +1,12 @@
 import Header from "../../components/header";
 import AdminAllUser from "../../components/adminAllUser";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import AdminAllSeller from "../../components/adminAllSeller";
 
 function Admin(props) {
   return (
     <>
-      {props.isLoggedIn && (
+      {props.isLoggedIn && props.user.role === "admin" ? (
         <>
           <Header {...props} />
           <Container className="p-4">
@@ -47,13 +48,19 @@ function Admin(props) {
             </Row>
             <Row className="py-4">
               <Col>
+                <h1>Users</h1>
                 <AdminAllUser {...props} />
+              </Col>
+              <Col>
+                <h1>Sellers</h1>
+                <AdminAllSeller {...props} />
               </Col>
             </Row>
           </Container>
         </>
+      ) : (
+        <div>Page Not Found</div>
       )}
-      {!props.isLoggedIn && <div>404</div>}
     </>
   );
 }

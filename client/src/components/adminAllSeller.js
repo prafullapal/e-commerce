@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
-function AdminAllUser(props) {
+function AdminAllSeller(props) {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/users?role=user", { withCredentials: true })
+      .get("http://localhost:5000/users?role=seller", { withCredentials: true })
       .then((response) => {
         return response.data.users;
       })
@@ -49,4 +49,4 @@ function AdminAllUser(props) {
   );
 }
 
-export default AdminAllUser;
+export default AdminAllSeller;

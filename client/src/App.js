@@ -39,14 +39,15 @@ class App extends React.Component {
         }
       })
       .catch((err) => {
-        if (
-          err.response.status === 403 &&
-          err.response.data.msg === "Authentication Invalid"
-        )
-          console.log("No User Logged In.");
-        else {
-          console.log(err);
-        }
+        console.log(err)
+        // if (
+        //   err.response.status === 403 &&
+        //   err.response.data.msg === "Authentication Invalid"
+        // )
+        //   console.log("No User Logged In.");
+        // else {
+        //   console.log(err);
+        // }
       });
   }
 

@@ -5,6 +5,10 @@ const {
 } = require("../middleware/authentication");
 const router = express.Router();
 
+const multer = require("multer");
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
 const {
   getCatalog,
   getProduct,
@@ -17,9 +21,13 @@ const {
 
 router.route("/").get(getCatalog);
 
-router
-  .route("/add")
-  .post(authenticateUser, authorizePermissions("seller"), createProduct);
+router.post(
+  "/add",
+  upload.any(),
+  authenticateUser,
+  authorizePermissions("seller"),
+  createProduct
+);
 router
   .route("/add/:id")
   .patch(
@@ -28,6 +36,12 @@ router
     updateProduct
   );
 router
+  .route("/myCatalog")
+  .get(authenticateUser, authorizePermissions("seller"), getMyCatalog);
+router
+  .route("/clearCatalog")
+  .delete(authenticateUser, authorizePermissions("seller"), clearCatalog);
+router
   .route("/:id")
   .get(getProduct)
   .delete(
@@ -35,12 +49,5 @@ router
     authorizePermissions("seller", "admin"),
     deleteProduct
   );
-
-router
-  .route("/myCatalog")
-  .get(authenticateUser, authorizePermissions("seller"), getMyCatalog);
-router
-  .route("/clearCatalog")
-  .delete(authenticateUser, authorizePermissions("seller"), clearCatalog);
 
 module.exports = router;

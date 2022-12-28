@@ -43,8 +43,9 @@ function Header(props) {
       />
       <Navbar bg="dark" expand="lg" variant="dark" sticky="top">
         <Container fluid>
-          {props.isLoggedIn && props.user.role === "admin" && (
-            <div>
+          {props.isLoggedIn &&
+          (props.user.role === "admin" || props.user.role === "seller") ? (
+            <>
               <SideBar
                 show={show}
                 handleClose={handleClose}
@@ -58,8 +59,8 @@ function Header(props) {
               >
                 <FontAwesomeIcon icon="fa-solid fa-bars" />
               </Button>
-            </div>
-          )}
+            </>
+          ) : null}
           <Navbar.Brand href="/">eBazaar</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse

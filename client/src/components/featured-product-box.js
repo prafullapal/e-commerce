@@ -13,66 +13,79 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Card } from "react-bootstrap";
 
+import product_1 from "./assets/images/products/product_1.webp";
+import product_2 from "./assets/images/products/product_2.webp";
+import product_3 from "./assets/images/products/product_3.webp";
+import product_4 from "./assets/images/products/product_4.webp";
+import product_5 from "./assets/images/products/product_5.webp";
+import product_6 from "./assets/images/products/product_6.webp";
+import product_7 from "./assets/images/products/product_7.webp";
+import product_8 from "./assets/images/products/product_8.webp";
+import product_9 from "./assets/images/products/product_9.webp";
+import product_10 from "./assets/images/products/product_10.webp";
+import product_11 from "./assets/images/products/product_11.webp";
+import product_12 from "./assets/images/products/product_12.webp";
+
 function FeaturedProductBox() {
   const products = [
     {
       name: "Product 1",
-      img: "",
+      img: product_1,
       price: "700",
     },
     {
       name: "Product 2",
-      img: "",
+      img: product_2,
       price: "700",
     },
     {
       name: "Product 3",
-      img: "",
+      img: product_3,
       price: "700",
     },
     {
       name: "Product 4",
-      img: "",
+      img: product_4,
       price: "700",
     },
     {
       name: "Product 5",
-      img: "",
+      img: product_5,
       price: "700",
     },
     {
       name: "Product 6",
-      img: "",
+      img: product_6,
       price: "700",
     },
     {
       name: "Product 7",
-      img: "",
+      img: product_7,
       price: "700",
     },
     {
       name: "Product 8",
-      img: "",
+      img: product_8,
       price: "700",
     },
     {
       name: "Product 9",
-      img: "",
+      img: product_9,
       price: "700",
     },
     {
       name: "Product 10",
-      img: "",
+      img: product_10,
       price: "700",
     },
     {
       name: "Product 11",
-      img: "",
+      img: product_11,
       price: "700",
     },
     {
       name: "Product 12",
-      img: "",
+      img: product_12,
       price: "700",
     },
   ];
